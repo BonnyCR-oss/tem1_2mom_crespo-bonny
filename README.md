@@ -112,6 +112,10 @@ docker compose exec master hdfs dfsadmin -safemode get
 
 ## Estado de validación
 
-Validado: `docker compose config --quiet`, sintaxis Bash y correspondencia de los SHA-256 con las dependencias del laboratorio previo. El intento de construcción fue bloqueado por permisos de acceso a `/var/run/docker.sock` en esta sesión. La construcción de la imagen y la prueba real de Hive/HDFS requieren acceso al daemon Docker; deben confirmarse con los comandos de arranque anteriores. Todavía no se han ejecutado las consultas del examen.
+Validado el 11 de noviembre de 2026: configuración Compose, sintaxis Bash y ejecución real de `sql/00_verificar_entorno.hql`. La prueba creó una tabla ORC en HDFS, insertó y leyó `1,Hive y HDFS operativos`, y eliminó solamente esa tabla de prueba. Salida y mensajes en `evidencias/00_verificar_entorno.csv` y `evidencias/00_verificar_entorno.stderr.txt`.
+
+El primer intento de conexión ocurrió antes de que HiveServer2 terminara de iniciar. Las comprobaciones de salud ahora consultan los puertos locales de Hive/HDFS y de cada DataNode, en lugar del chequeo heredado de la imagen base. La tabla de prueba se llama `prueba_entorno` para respetar la sintaxis de identificadores de Hive.
+
+Las consultas del examen todavía deben desarrollarse.
 
 Referencias: [Dockerfile](https://docs.docker.com/reference/dockerfile/), [aislamiento de proyectos Compose](https://docs.docker.com/compose/how-tos/project-name/).

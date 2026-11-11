@@ -1,0 +1,6 @@
+NAME                                      IMAGE                          COMMAND                  SERVICE         CREATED          STATUS                    PORTS
+examen-superstore-bonny-hivemetastore-1   postgres:11.5                  "docker-entrypoint.s…"   hivemetastore   12 minutes ago   Up 12 minutes (healthy)   5432/tcp
+examen-superstore-bonny-master-1          examen-superstore-hive:local   "/bin/bash /opt/exam…"   master          2 minutes ago    Up 2 minutes (healthy)    127.0.0.1:18088->8088/tcp, 127.0.0.1:19870->9870/tcp, 127.0.0.1:11000->10000/tcp
+examen-superstore-bonny-worker1-1         examen-superstore-hive:local   "/bin/bash /opt/exam…"   worker1         2 minutes ago    Up 2 minutes (healthy)    
+examen-superstore-bonny-worker2-1         examen-superstore-hive:local   "/bin/bash /opt/exam…"   worker2         2 minutes ago    Up 2 minutes (healthy)    
+examen-superstore-bonny-worker3-1         examen-superstore-hive:local   "/bin/bash /opt/exam…"   worker3         2 minutes ago    Up 2 minutes (healthy)    

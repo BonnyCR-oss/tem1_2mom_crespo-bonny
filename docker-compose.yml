@@ -29,6 +29,12 @@ services:
     - /opt/examen/entrypoint.sh
     stop_grace_period: 60s
     hostname: master
+    healthcheck:
+      test: [CMD, bash, -c, 'echo > /dev/tcp/127.0.0.1/10000 && echo > /dev/tcp/127.0.0.1/9870']
+      interval: 30s
+      timeout: 5s
+      start_period: 90s
+      retries: 5
     depends_on:
       hivemetastore:
         condition: service_healthy
@@ -66,6 +72,12 @@ services:
     - /opt/examen/entrypoint.sh
     stop_grace_period: 60s
     hostname: worker1
+    healthcheck:
+      test: [CMD, bash, -c, 'echo > /dev/tcp/127.0.0.1/9866']
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
     depends_on:
     - hivemetastore
     environment:
@@ -100,6 +112,12 @@ services:
     - /opt/examen/entrypoint.sh
     stop_grace_period: 60s
     hostname: worker2
+    healthcheck:
+      test: [CMD, bash, -c, 'echo > /dev/tcp/127.0.0.1/9866']
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
     depends_on:
     - hivemetastore
     environment:
@@ -134,6 +152,12 @@ services:
     - /opt/examen/entrypoint.sh
     stop_grace_period: 60s
     hostname: worker3
+    healthcheck:
+      test: [CMD, bash, -c, 'echo > /dev/tcp/127.0.0.1/9866']
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
     depends_on:
     - hivemetastore
     environment:
