@@ -7,3 +7,7 @@ datos/*
 .runtime/
 *.jar
 __pycache__/
+
+# Resultados reproducibles y documento de entrega separado
+resultados/*.csv
+evidencias/ejecucion.txt

@@ -61,4 +61,28 @@ SELECT COUNT(*) AS registros, COUNT(DISTINCT s.order_id) AS ordenes_unicas,
  SUM(CASE WHEN s.quantity<=0 THEN 1 ELSE 0 END) AS cantidades_no_positivas,
  SUM(CASE WHEN s.profit<0 THEN 1 ELSE 0 END) AS lineas_con_perdida
 FROM superstore s CROSS JOIN a;
-SELECT * FROM p02_resumen;
+SELECT indicador,valor FROM (
+SELECT 'registros' AS indicador,CAST(registros AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'ordenes_unicas' AS indicador,CAST(ordenes_unicas AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'clientes_unicos' AS indicador,CAST(clientes_unicos AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'identificadores_duplicados' AS indicador,CAST(identificadores_duplicados AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'filas_duplicadas_excedentes' AS indicador,CAST(filas_duplicadas_excedentes AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'fechas_invalidas' AS indicador,CAST(fechas_invalidas AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'envio_anterior_pedido' AS indicador,CAST(envio_anterior_pedido AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'ventas_no_positivas' AS indicador,CAST(ventas_no_positivas AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'descuentos_fuera_rango' AS indicador,CAST(descuentos_fuera_rango AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'cantidades_no_positivas' AS indicador,CAST(cantidades_no_positivas AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT 'lineas_con_perdida' AS indicador,CAST(lineas_con_perdida AS STRING) AS valor FROM p02_resumen
+UNION ALL
+SELECT CONCAT('nulos.',campo),CAST(nulos AS STRING) FROM p02_nulos
+) x ORDER BY indicador;

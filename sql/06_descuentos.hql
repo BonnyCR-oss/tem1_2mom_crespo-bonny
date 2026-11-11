@@ -24,4 +24,10 @@ WITH a AS (
  SUM(CASE WHEN profit<0 THEN 1 ELSE 0 END) FROM v_descuentos GROUP BY category,sub_category,rango_descuento
 ),b AS (SELECT *,ROUND(100.0*ganancias/ventas,4) AS margen_pct,ROUND(100.0*perdidas/registros,4) AS no_rentables_pct FROM a)
 SELECT *,RANK() OVER(PARTITION BY nivel,rango_descuento ORDER BY ganancias ASC) AS puesto_afectacion FROM b;
-SELECT * FROM p06_descuentos ORDER BY rango_descuento;
+SELECT 'total' AS nivel,CAST(NULL AS STRING) AS category,CAST(NULL AS STRING) AS sub_category,
+ rango_descuento,registros,ventas,ganancias,margen_pct,registros_con_perdida,no_rentables_pct,descuento_promedio_pct
+FROM p06_descuentos
+UNION ALL
+SELECT a.nivel,a.category,a.sub_category,a.rango_descuento,a.registros,a.ventas,a.ganancias,
+ a.margen_pct,a.perdidas,a.no_rentables_pct,CAST(NULL AS DECIMAL(12,4))
+FROM p06_afectadas a;

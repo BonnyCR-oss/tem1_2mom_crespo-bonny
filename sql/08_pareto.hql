@@ -23,4 +23,4 @@ WITH k AS (SELECT analisis,MIN(posicion) AS cantidad_productos FROM p08_pareto W
 SELECT p.analisis,k.cantidad_productos,p.productos_total,
  ROUND(100.0*k.cantidad_productos/p.productos_total,4) AS productos_pct,
  p.total,p.acumulado,p.acumulado_pct FROM p08_pareto p JOIN k ON p.analisis=k.analisis AND p.posicion=k.cantidad_productos;
-SELECT * FROM p08_resumen ORDER BY analisis;
+SELECT p.*,r.cantidad_productos AS productos_para_80,r.productos_pct AS productos_para_80_pct FROM p08_pareto p JOIN p08_resumen r ON p.analisis=r.analisis ORDER BY p.analisis,p.posicion;
