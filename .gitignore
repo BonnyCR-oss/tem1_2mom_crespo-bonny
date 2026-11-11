@@ -2,3 +2,8 @@ datos/*
 !datos/README.md
 .env
 *.log
+
+# Estado local y archivos privados
+.runtime/
+*.jar
+__pycache__/
