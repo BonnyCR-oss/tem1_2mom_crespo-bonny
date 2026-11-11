@@ -17,7 +17,7 @@ Desde la raíz del repositorio:
 ./scripts/resolver.sh
 ```
 
-La prueba debe devolver `1,Hive y HDFS operativos`. El último comando descarga el CSV público de Kaggle si falta, verifica su SHA-256, crea una copia UTF-8 y ejecuta las ocho preguntas en orden. Si Kaggle no permite descargarlo desde otra red, se puede obtener manualmente y guardarlo como `datos/Sample-Superstore.csv`. Genera un CSV por pregunta en `resultados/` y reúne los mensajes, códigos de salida, hashes y EXPLAIN en `evidencias/ejecucion.txt`. Se detiene si una consulta falla.
+La prueba debe mostrar una fila con ID `1` y mensaje `Hive y HDFS operativos`. El último comando descarga el CSV público de Kaggle si falta, verifica su SHA-256, crea una copia UTF-8 y ejecuta las ocho preguntas en orden. Si Kaggle no permite descargarlo desde otra red, se puede obtener manualmente y guardarlo como `datos/Sample-Superstore.csv`. Muestra los resultados y mensajes directamente en la consola, sin generar archivos de resultados ni registros adicionales. Se detiene si una consulta falla.
 
 Para ejecutar una pregunta individual:
 
@@ -40,9 +40,9 @@ La primera pregunta debe ejecutarse antes de las demás. Todas usan `examen_supe
 | 7 | `sql/07_tendencias.hql` | Meses, comparación interanual, LAG y media móvil |
 | 8 | `sql/08_pareto.hql` | Participación y cantidad mínima de productos para alcanzar 80% |
 
-[Diccionario de los 21 campos](docs/diccionario_datos.md). El grano es una línea de pedido. Fechas originales: `M/d/yyyy`; códigos postales como STRING; importes como DECIMAL(18,4). OpenCSVSerde respeta nombres con comas y comillas. Beeline exporta CSV con comillas habilitadas.
+[Diccionario de los 21 campos](docs/diccionario_datos.md). El grano es una línea de pedido. Fechas originales: `M/d/yyyy`; códigos postales como STRING; importes como DECIMAL(18,4). OpenCSVSerde respeta nombres con comas y comillas. Beeline muestra los resultados en tablas dentro de la consola.
 
-Los CSV fuente y los resultados generados no se versionan. El documento de presentación editable se entrega fuera del repositorio. En `resultados/p01.png` a `resultados/p08.png` se incluyen capturas completas de consultas ejecutadas en Beeline, con la fecha y hora del escritorio. Los CSV y el registro se vuelven a generar al ejecutar el proyecto; las imágenes documentan la ejecución realizada.
+Los CSV fuente no se versionan. El documento de presentación editable se entrega fuera del repositorio. En `resultados/p01.png` a `resultados/p08.png` se incluyen capturas completas de consultas ejecutadas en Beeline, con la fecha y hora del escritorio. Las imágenes documentan la ejecución realizada; los scripts muestran las nuevas ejecuciones en la consola.
 
 ## Resultados y decisiones
 
@@ -58,7 +58,7 @@ Las tendencias abarcan 48 meses consecutivos. La media móvil contiene hasta tre
 
 ## Optimización y límites
 
-Se usa ORC con Snappy, conversiones al cargar y agregación previa a ventanas. La auditoría de NULL usa una sola agregación y STACK. `resolver.sh` calcula estadísticas y guarda un EXPLAIN del filtro de fecha y agregación regional. No se particiona este dataset pequeño para evitar archivos diminutos.
+Se usa ORC con Snappy, conversiones al cargar y agregación previa a ventanas. La auditoría de NULL usa una sola agregación y STACK. `resolver.sh` calcula estadísticas y muestra un EXPLAIN del filtro de fecha y agregación regional. No se particiona este dataset pequeño para evitar archivos diminutos.
 
 Las consultas se ejecutan con MapReduce local para reproducibilidad. Los tres DataNodes almacenan HDFS; esta ejecución no mide procesamiento distribuido ni demuestra escalabilidad. No se afirma una mejora de rendimiento sin un benchmark controlado. Los totales, métricas RFM, rankings, ventanas y Pareto se contrastaron de forma independiente con el CSV usando aritmética decimal.
 

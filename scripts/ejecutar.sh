@@ -11,7 +11,7 @@ if [[ "$script_path" != "$(pwd)/sql/"* ]]; then
   exit 1
 fi
 relative_path=${script_path#"$(pwd)/sql/"}
-exec docker compose exec -T -e HADOOP_CLIENT_OPTS=-Ddisable.quoting.for.sv=false master beeline \
+exec docker compose exec -T master beeline \
   -u jdbc:hive2://localhost:10000 -n root \
-  --silent=true --showHeader=true --outputformat=csv2 \
+  --silent=true --showHeader=true --outputformat=table --maxWidth=240 --maxColumnWidth=40 \
   -f "/data/sql/$relative_path"
