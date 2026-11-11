@@ -9,8 +9,7 @@ Procesa el dataset Sample Superstore con Hive: modelo y carga, calidad, regiones
 
 Docker Engine/Desktop con Compose v2, Bash, Python 3, `timeout`, `realpath` e internet para descargar imágenes y dependencias. El entorno incluye un master Hadoop/Hive, tres DataNodes y PostgreSQL para el metastore.
 
-1. Descargar el CSV de [Kaggle](https://www.kaggle.com/datasets/vivek468/superstore-dataset-final) y guardarlo como `datos/Sample-Superstore.csv`.
-2. Desde la raíz del repositorio:
+Desde la raíz del repositorio:
 
 ```bash
 ./scripts/iniciar.sh
@@ -18,7 +17,7 @@ Docker Engine/Desktop con Compose v2, Bash, Python 3, `timeout`, `realpath` e in
 ./scripts/resolver.sh
 ```
 
-La prueba debe devolver `1,Hive y HDFS operativos`. El último comando verifica el CSV, crea una copia UTF-8 y ejecuta las ocho preguntas en orden. Genera un CSV por pregunta en `resultados/` y reúne los mensajes, códigos de salida, hashes y EXPLAIN en `evidencias/ejecucion.txt`. Se detiene si una consulta falla.
+La prueba debe devolver `1,Hive y HDFS operativos`. El último comando descarga el CSV público de Kaggle si falta, verifica su SHA-256, crea una copia UTF-8 y ejecuta las ocho preguntas en orden. Si Kaggle no permite descargarlo desde otra red, se puede obtener manualmente y guardarlo como `datos/Sample-Superstore.csv`. Genera un CSV por pregunta en `resultados/` y reúne los mensajes, códigos de salida, hashes y EXPLAIN en `evidencias/ejecucion.txt`. Se detiene si una consulta falla.
 
 Para ejecutar una pregunta individual:
 
@@ -43,7 +42,7 @@ La primera pregunta debe ejecutarse antes de las demás. Todas usan `examen_supe
 
 [Diccionario de los 21 campos](docs/diccionario_datos.md). El grano es una línea de pedido. Fechas originales: `M/d/yyyy`; códigos postales como STRING; importes como DECIMAL(18,4). OpenCSVSerde respeta nombres con comas y comillas. Beeline exporta CSV con comillas habilitadas.
 
-Los CSV fuente y los resultados generados no se versionan. El documento de presentación y sus capturas se entregan en un PDF separado del repositorio.
+Los CSV fuente y los resultados generados no se versionan. El documento de presentación editable se entrega fuera del repositorio. En `resultados/p01.png` a `resultados/p08.png` se incluyen capturas completas de consultas ejecutadas en Beeline, con la fecha y hora del escritorio. Los CSV y el registro se vuelven a generar al ejecutar el proyecto; las imágenes documentan la ejecución realizada.
 
 ## Resultados y decisiones
 

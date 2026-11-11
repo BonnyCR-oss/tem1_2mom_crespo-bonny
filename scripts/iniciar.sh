@@ -13,7 +13,7 @@ for ((attempt=1; attempt<=60; attempt++)); do
   if timeout 20s docker compose exec -T master beeline \
       -u jdbc:hive2://localhost:10000 -n root \
       --silent=true --showHeader=false --outputformat=tsv2 \
-      -e "SELECT 'ENTORNO_OK';" > .runtime/inicio.log 2>&1 &&
+      -f /dev/stdin > .runtime/inicio.log 2>&1 <<< "SELECT 'ENTORNO_OK';" &&
       grep -qx 'ENTORNO_OK' .runtime/inicio.log; then
     printf 'Hive responde. Ejecuta: ./scripts/ejecutar.sh sql/00_verificar_entorno.hql\n'
     exit 0
